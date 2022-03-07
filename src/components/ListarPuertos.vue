@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-if="mostrarError" class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';"
+        >&times;</span
+      >
+      Ocurrio un error!
+    </div>
     <form @submit.prevent="filtrarPuertos" class="filter__form">
       <div>
         <label for="">Name</label>
@@ -161,6 +167,7 @@
           continentes,
         },
         mostrarSpiner: false,
+        mostrarError: false,
       };
     },
     methods: {
@@ -176,6 +183,12 @@
             this.informacionExtra = meta;
             this.filtrarPuertos();
             this.mostrarSpiner = false;
+          })
+          .catch(() => {
+            this.mostrarError = true;
+            setTimeout(() => {
+              this.mostrarError = false;
+            }, 3000);
           });
       },
       filtrarPaises() {
