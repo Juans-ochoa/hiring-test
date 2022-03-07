@@ -173,7 +173,12 @@
     methods: {
       obtenerPuertos(url = "http://apitest.cargofive.com/api/ports") {
         this.mostrarSpiner = true;
-        fetch(url)
+        fetch(url, {
+          headers: [
+            ["Content-Type", "application/json"],
+            ["Content-Type", "text/plain"],
+          ],
+        })
           .then((res) => res.json())
           .then((datos) => {
             const { data: puertos, links, meta } = datos;
@@ -184,11 +189,13 @@
             this.filtrarPuertos();
             this.mostrarSpiner = false;
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log(error);
+            this.mostrarSpiner = false;
             this.mostrarError = true;
             setTimeout(() => {
               this.mostrarError = false;
-            }, 3000);
+            }, 4000);
           });
       },
       filtrarPaises() {
