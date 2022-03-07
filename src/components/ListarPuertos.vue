@@ -44,6 +44,9 @@
       </div>
     </form>
     <h2 class="header">List ports</h2>
+    <div v-if="mostrarSpiner" class="container-spinner">
+      <div class="spinner"></div>
+    </div>
     <section class="content__table">
       <table class="table__puertos">
         <thead>
@@ -157,11 +160,12 @@
           paises,
           continentes,
         },
+        mostrarSpiner: false,
       };
     },
     methods: {
       obtenerPuertos(url = "http://apitest.cargofive.com/api/ports") {
-        console.log(url);
+        this.mostrarSpiner = true;
         fetch(url)
           .then((res) => res.json())
           .then((datos) => {
@@ -171,6 +175,7 @@
             this.rutas = links;
             this.informacionExtra = meta;
             this.filtrarPuertos();
+            this.mostrarSpiner = false;
           });
       },
       filtrarPaises() {
