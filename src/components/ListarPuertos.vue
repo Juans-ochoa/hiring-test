@@ -173,12 +173,7 @@
     methods: {
       obtenerPuertos(url = "http://apitest.cargofive.com/api/ports") {
         this.mostrarSpiner = true;
-        fetch(url, {
-          headers: [
-            ["Content-Type", "application/json"],
-            ["Content-Type", "text/plain"],
-          ],
-        })
+        fetch(url)
           .then((res) => res.json())
           .then((datos) => {
             const { data: puertos, links, meta } = datos;
@@ -189,8 +184,7 @@
             this.filtrarPuertos();
             this.mostrarSpiner = false;
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             this.mostrarSpiner = false;
             this.mostrarError = true;
             setTimeout(() => {
